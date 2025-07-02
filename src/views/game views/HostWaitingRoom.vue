@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StartButton from '@/components/StartButton.vue';
+import StartButton from '@/components/Button.vue';
 import {router} from '@/router'
 function startGame(): void {
 return

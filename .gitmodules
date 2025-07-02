@@ -1,0 +1,3 @@
+[submodule "battleships-server"]
+	path = battleships-server
+	url = https://github.com/smolbeaneden/battleships-server

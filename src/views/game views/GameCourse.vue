@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ownBoard, opponentBoard} from '@/logic/data.ts'
+import {ownBoard, opponentBoard} from '@/data/DataStore.ts'
 import {ref} from 'vue';
-import EndGamePopup from '@/components/EndGamePopup.vue'
+import Popup from '@/components/Popup.vue'
 const cursor = ref<string>('pointer')
 const hoverBackground = ref<string>('#5c525a')
 function shipDisplay(ship: boolean): string{
@@ -36,7 +36,7 @@ function shipDisplay(ship: boolean): string{
       </div>
     </div>
   </div>
-  <EndGamePopup/>
+  <Popup/>
 
 
 </template>

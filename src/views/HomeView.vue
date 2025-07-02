@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import {ref} from 'vue'
-import StartButton from '@/components/StartButton.vue'
-const inputCode = ref<string>('')
+import {router} from '@/router/index.ts'
+import Button from '@/components/Button.vue'
+const inputCode = ref<string>('game')
 
-
-function checkCode(code: string): boolean{
-
+function joinRoom(code: string): void {
+  console.log(code)
+  router.push({path: inputCode.value})
 }
+
+function createRoom(): void {
+  router.push({path: inputCode.value})
+}
+
 </script>
 
 <template>
@@ -17,11 +23,11 @@ function checkCode(code: string): boolean{
       <img src="../assets/battleship.png" alt="Battleship" />
     </div>
     <div class="grid">
-        <StartButton title="Start Game" path="startGame" />
-<!--        <div>-->
-<!--          <input v-model="inputCode">-->
-          <StartButton title="Join a Game" path="game" @click="checkCode()" />
-<!--        </div>-->
+        <Button title="Start Game" @click="createRoom()" />
+        <div>
+          <input :v-model="inputCode"/>
+          <Button title="Join a Game" @click="joinRoom(inputCode)" />
+        </div>
 
     </div>
   </div>
@@ -49,6 +55,7 @@ h2{
   grid-template-columns: 1fr 1fr;
   text-align: center;
 }
+
 
 
 </style>

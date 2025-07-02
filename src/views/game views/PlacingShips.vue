@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ownBoard} from '@/logic/data.ts';
+import {ownBoard} from '@/data/DataStore.ts';
 import {ref} from 'vue';
-import StartButton from '@/components/StartButton.vue'
+import StartButton from '@/components/Button.vue'
 console.log(ownBoard.value)
 function shipDisplay(ship: boolean): string {
   if (ship) {
