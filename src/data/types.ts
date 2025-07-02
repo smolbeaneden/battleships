@@ -1,9 +1,9 @@
-export interface cell  {
+export type cell = {
   ship: boolean,
   clicked: boolean
 }
 
-export type Board = cell[ ]
+export type Board = cell[][]
 
 export interface room  {
   roomCode: string,
