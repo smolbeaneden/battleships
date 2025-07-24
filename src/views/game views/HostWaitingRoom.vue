@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import StartButton from '@/components/Button.vue';
 import {router} from '@/router'
+import {roomID} from "@/data/DataStore.ts";
 function startGame(): void {
 return
 }
@@ -18,11 +19,11 @@ async function copyContent(): Promise<void> {
 </script>
 
 <template>
-  <div v-if="false">
+  <div v-if="true">
     <div class="heading">Waiting for a player to join </div>
     <br/>
     <div class="heading">room code: </div>
-    <div class="code">{{router.currentRoute.value.name}}</div>
+    <div class="code">{{roomID}}</div>
     <div class="center">
       <StartButton title="Copy link to share" @click="copyContent()"/>
     </div>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import {ref} from 'vue'
+import {ownID} from "@/data/DataStore.ts";
 import {router} from '@/router/index.ts'
 import Button from '@/components/Button.vue'
+import {createRoom} from "@/controllers/HomeViewController.ts";
+
 const inputCode = ref<string>('game')
 
 function joinRoom(code: string): void {
@@ -9,9 +12,6 @@ function joinRoom(code: string): void {
   router.push({path: inputCode.value})
 }
 
-function createRoom(): void {
-  router.push({path: inputCode.value})
-}
 
 </script>
 
@@ -23,7 +23,7 @@ function createRoom(): void {
       <img src="../assets/battleship.png" alt="Battleship" />
     </div>
     <div class="grid">
-        <Button title="Start Game" @click="createRoom()" />
+        <Button title="Start Game" @click="createRoom(ownID)" />
         <div>
           <input :v-model="inputCode"/>
           <Button title="Join a Game" @click="joinRoom(inputCode)" />

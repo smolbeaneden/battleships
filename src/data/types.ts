@@ -5,16 +5,18 @@ export type cell = {
 
 export type Board = cell[][]
 
-export interface room  {
-  roomCode: string,
-  host: string,
-  player: string,
-  state: string,
-  hostBoard: Board,
-  playerBoard: Board,
-  turn: number,
-  playerReady: boolean,
-  hostReady: boolean
+export type RoomID = string
+export type PlayerID = string;
+export type State = "waitingRoom" | "placingShips" | "game" | "endGame" | "none";
+export type Turn = "me" | "opponent";
+
+export type room = {
+  roomID: RoomID,
+  state: State,
+  ownBoard: Board,
+  oppBoard: Board,
+  turn: Turn,
+  ownShipsPlaced: number
 }
 
 
