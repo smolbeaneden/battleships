@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 const show = ref<boolean>(true)
 
 function popupText(): string {
@@ -8,7 +9,7 @@ function popupText(): string {
 
 <template>
   <div v-if="show" class="popup">
-    <div class="popup-content">{{popupText()}}</div>
+    <div class="popup-content">{{ popupText() }}</div>
   </div>
 </template>
 

@@ -1,11 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import GameView from '../views/GameView.vue'
-import PlayerWaitingRoom from '@/views/game views/PlayerWaitingRoom.vue'
-import HostWaitingRoom from '@/views/game views/HostWaitingRoom.vue'
-import PlacingShips from '@/views/game views/PlacingShips.vue'
-import GameCourse from '@/views/game views/GameCourse.vue'
-import {roomID} from '../data/DataStore'
+import { ownID } from '@/data/DataStore.ts'
+
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -18,8 +15,26 @@ export const router = createRouter({
       path: `/:roomID`,
       name: 'game',
       component: GameView,
+      meta: { requireAuth: true },
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  // Check if the route requires authentication
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // Assume an `isAuthenticated()` function that checks user's login status
+    if (!authorizeOrAddUser(to.toString(), ownID.value)) {
+      // If not authenticated, redirect to the login page
+      next('/')
+    } else {
+      // If authenticated, proceed to the route
+      next()
+    }
+  } else {
+    // If the route doesn't require authentication, proceed
+    next()
+  }
 })
 
 export default router

@@ -33,7 +33,7 @@ export default defineConfig({
             // alias
             ['useFetch', 'useMyFetch'], // import { useFetch as useMyFetch } from '@vueuse/core',
           ],
-          'axios': [
+          axios: [
             // default imports
             ['default', 'axios'], // import { default as axios } from 'axios',
           ],
@@ -52,10 +52,7 @@ export default defineConfig({
       ],
 
       // Array of strings of regexes that contains imports meant to be filtered out.
-      ignore: [
-        'useMouse',
-        'useFetch'
-      ],
+      ignore: ['useMouse', 'useFetch'],
 
       // Enable auto import by filename for default module exports under directories
       defaultExportByFilename: false,
@@ -63,8 +60,8 @@ export default defineConfig({
       // Options for scanning directories for auto import
       dirsScanOptions: {
         filePatterns: ['*.ts'], // Glob patterns for matching files
-        fileFilter: file => file.endsWith('.ts'), // Filter files
-        types: true // Enable auto import the types under the directories
+        fileFilter: (file) => file.endsWith('.ts'), // Filter files
+        types: true, // Enable auto import the types under the directories
       },
 
       // Auto import for module exports under directories
@@ -77,12 +74,12 @@ export default defineConfig({
 
         {
           glob: './hooks',
-          types: true // enable import the types
+          types: true, // enable import the types
         },
         {
           glob: './composables',
-          types: false // If top level dirsScanOptions.types importing enabled, just only disable this directory
-        }
+          types: false, // If top level dirsScanOptions.types importing enabled, just only disable this directory
+        },
         // ...
       ],
 
@@ -94,10 +91,7 @@ export default defineConfig({
       // Array of strings of regexes that contains imports meant to be ignored during
       // the declaration file generation. You may find this useful when you need to provide
       // a custom signature for a function.
-      ignoreDts: [
-        'ignoredFunction',
-        /^ignore_/
-      ],
+      ignoreDts: ['ignoredFunction', /^ignore_/],
 
       // Auto import inside Vue template
       // see https://github.com/unjs/unimport/pull/15 and https://github.com/unjs/unimport/pull/72
@@ -142,7 +136,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
@@ -151,9 +145,8 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
-        ws: true
-      }
-    }
-  }
+        ws: true,
+      },
+    },
+  },
 })
-

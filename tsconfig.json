@@ -9,6 +9,6 @@
     }
   ],
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true
   }
 }
