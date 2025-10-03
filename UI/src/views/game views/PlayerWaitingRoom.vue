@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { usePolling, get } from '@/data/fetchFunctions.ts'
+import { usePolling, get } from 'UI/src/data/fetchFunctions.ts'
 import { onMounted } from 'vue'
-import {roomID, state} from '@/data/DataStore.ts'
+import {roomID, state} from 'UI/src/data/DataStore.ts'
 
 type Response = {
   data: string

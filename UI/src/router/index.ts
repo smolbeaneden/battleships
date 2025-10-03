@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import GameView from '../views/GameView.vue'
-import { ownID } from '@/data/DataStore.ts'
+import { ownID } from 'UI/src/data/DataStore.ts'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

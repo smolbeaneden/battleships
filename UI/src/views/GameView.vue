@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import HostWaitingRoom from '@/views/game views/HostWaitingRoom.vue'
-import PlayerWaitingRoom from '@/views/game views/PlayerWaitingRoom.vue'
-import PlacingShips from '@/views/game views/PlacingShips.vue'
-import GameCourse from '@/views/game views/GameCourse.vue'
-import { ownID, roomID, role, state } from '@/data/DataStore.ts'
-import { joinRoom } from '@/data/fetchFunctions.ts'
-import router from '@/router'
+import HostWaitingRoom from 'UI/src/views/game views/HostWaitingRoom.vue'
+import PlayerWaitingRoom from 'UI/src/views/game views/PlayerWaitingRoom.vue'
+import PlacingShips from 'UI/src/views/game views/PlacingShips.vue'
+import GameCourse from 'UI/src/views/game views/GameCourse.vue'
+import { ownID, roomID, role, state } from 'UI/src/data/DataStore.ts'
+import { joinRoom } from 'UI/src/data/fetchFunctions.ts'
+import router from 'UI/src/router'
 
 if (role.value !== 'host' && role.value !== 'player') {
   setTimeout(async () => {

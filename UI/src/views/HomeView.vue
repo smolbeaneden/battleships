@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ownID, roomID, role } from '@/data/DataStore.ts'
-import { router } from '@/router/index.ts'
-import Button from '@/components/Button.vue'
-import type { PlayerID } from '@/data/types.ts'
-import { post, joinRoom } from '@/data/fetchFunctions.ts'
+import { ownID, roomID, role } from 'UI/src/data/DataStore.ts'
+import { router } from 'UI/src/router'
+import Button from 'UI/src/components/Button.vue'
+import type { PlayerID } from 'UI/src/data/types.ts'
+import { post, joinRoom } from 'UI/src/data/fetchFunctions.ts'
 import type { JsonOptions } from 'vite'
 
 const inputCode = ref<string>('')

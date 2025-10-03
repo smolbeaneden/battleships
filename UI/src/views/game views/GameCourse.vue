@@ -6,9 +6,9 @@ import {
   ownCellBackground,
   roomID,
   turn
-} from '@/data/DataStore.ts'
-import { usePolling, get, put } from '@/data/fetchFunctions'
-import type { cell } from '@/data/types'
+} from 'UI/src/data/DataStore.ts'
+import { usePolling, get, put } from 'UI/src/data/fetchFunctions'
+import type { cell } from 'UI/src/data/types'
 import { ref, onMounted } from 'vue'
 
 const cursor = ref<string>('auto')

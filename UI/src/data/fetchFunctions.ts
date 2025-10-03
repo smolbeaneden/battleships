@@ -1,8 +1,8 @@
 import { ownID, role, serverURL, roomID, state } from './DataStore.ts'
 import type { JsonOptions } from 'vite'
 import router from '../router'
-import { authorizeOrAddPlayer } from '../../server/controllers/RoomController.ts'
-import type { RoomID, State, Board } from '@/data/types.ts'
+import { authorizeOrAddPlayer } from '../../../server/controllers/RoomController.ts'
+import type { RoomID, State, Board } from 'UI/src/data/types.ts'
 const myHeaders = { Authorization: ownID.value.toString() }
 import { ref, onMounted, onUnmounted } from 'vue'
 
@@ -49,7 +49,7 @@ export async function post(endpoint: string, input: string): Promise<Response | 
 }
 
 
-export async function put(endpoint: string, input: Board | string | Record<string, number> | boolean): Promise<Response | void> {
+export async function put(endpoint: string, input: Board | string | Record<string, number> | boolean ): Promise<Response | void> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {

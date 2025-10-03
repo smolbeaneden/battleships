@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ownBoard, ownID, roomID, shipsPlaced, role, state,ready, SHIPS } from '@/data/DataStore.ts'
-import { put, usePolling, get } from '@/data/fetchFunctions.ts'
-import StartButton from '@/components/Button.vue'
+import { ownBoard, ownID, roomID, shipsPlaced, role, state,ready, SHIPS } from 'UI/src/data/DataStore.ts'
+import { put, usePolling, get } from 'UI/src/data/fetchFunctions.ts'
+import StartButton from 'UI/src/components/Button.vue'
 import { onMounted } from 'vue'
 
 console.log(ownBoard.value)

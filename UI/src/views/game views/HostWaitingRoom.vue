@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import StartButton from '@/components/Button.vue'
-import { router } from '@/router'
-import { roomID, state } from '@/data/DataStore.ts'
-import { get } from '@/data/fetchFunctions.ts'
+import StartButton from 'UI/src/components/Button.vue'
+import { router } from 'UI/src/router'
+import { roomID, state } from 'UI/src/data/DataStore.ts'
+import { get } from 'UI/src/data/fetchFunctions.ts'
 import { ref, onMounted } from 'vue'
-import { usePolling, changeState} from '@/data/fetchFunctions.ts'
+import { usePolling, changeState} from 'UI/src/data/fetchFunctions.ts'
 
 type Response = {
   data: boolean
