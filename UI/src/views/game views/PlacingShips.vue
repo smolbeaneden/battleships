@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ownBoard, ownID, roomID, shipsPlaced, role, state,ready, SHIPS } from 'UI/src/data/DataStore.ts'
-import { put, usePolling, get } from 'UI/src/data/fetchFunctions.ts'
-import StartButton from 'UI/src/components/Button.vue'
+import { ownBoard, ownID, roomID, shipsPlaced, role, state,ready, SHIPS } from '../../data/DataStore'
+import { put, usePolling, get } from '../../data/fetchFunctions'
+import StartButton from '../../components/Button.vue'
 import { onMounted } from 'vue'
 
 console.log(ownBoard.value)
@@ -29,7 +29,7 @@ function placeShip(x: number, y: number): void {
 
 async function checkOtherPlayerReady(): Promise<void> {
   if (ready.value){
-    const response = await get(`room/${roomID.value}/${role.value}/ready`) as Response | void
+    const response = await get<Response>(`room/${roomID.value}/${role.value}/ready`)
     console.log(response);
     if (response?.data) {
       state.value = "game"
@@ -44,7 +44,7 @@ onMounted(start)
 
 async function sendBoard() {
   console.log("sending")
-  const response = await put(`room/${roomID.value}/${ownID.value}/board`, ownBoard.value)
+  const response = await put<Response>(`room/${roomID.value}/${ownID.value}/board`, ownBoard.value)
   console.log(response);
   ready.value = true
 }

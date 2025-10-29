@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
-import { deleteRequest } from './data/fetchFunctions.ts'
-import { ownID, serverURL } from 'UI/src/data/DataStore.ts'
+import { deleteRequest } from './data/fetchFunctions'
+import { ownID, serverURL } from './data/DataStore'
 
 function deleteCookie(name: string): void {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'

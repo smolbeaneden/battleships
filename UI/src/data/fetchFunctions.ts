@@ -1,8 +1,7 @@
-import { ownID, role, serverURL, roomID, state } from './DataStore.ts'
+import { ownID, role, serverURL, roomID } from './DataStore'
 import type { JsonOptions } from 'vite'
 import router from '../router'
-import { authorizeOrAddPlayer } from '../../../server/controllers/RoomController.ts'
-import type { RoomID, State, Board } from 'UI/src/data/types.ts'
+import type { RoomID, State, Board } from './types'
 const myHeaders = { Authorization: ownID.value.toString() }
 import { ref, onMounted, onUnmounted } from 'vue'
 
@@ -11,11 +10,11 @@ type Response = {
   ok: boolean
 }
 
-export async function get(endpoint: string): Promise<Response | void> {
+export async function get<T>(endpoint: string): Promise<T> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
-      headers: myHeaders,
+      headers: myHeaders
     })
     console.log(response)
     returnValue = await response.json()
@@ -32,7 +31,7 @@ export async function get(endpoint: string): Promise<Response | void> {
 //   const result = await promise;
 // }
 
-export async function post(endpoint: string, input: string): Promise<Response | void> {
+export async function post<T>(endpoint: string, input: string): Promise<T> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
@@ -49,7 +48,7 @@ export async function post(endpoint: string, input: string): Promise<Response | 
 }
 
 
-export async function put(endpoint: string, input: Board | string | Record<string, number> | boolean ): Promise<Response | void> {
+export async function put<T>(endpoint: string, input: Board | string | Record<string, number> | boolean ): Promise<T> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
@@ -65,7 +64,7 @@ export async function put(endpoint: string, input: Board | string | Record<strin
   return returnValue
 }
 
-export async function deleteRequest(endpoint: string): Promise<Response | void> {
+export async function deleteRequest<T>(endpoint: string): Promise<T> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
@@ -83,7 +82,7 @@ export async function deleteRequest(endpoint: string): Promise<Response | void> 
 export async function joinRoom(code: RoomID): Promise<boolean> {
   console.log(code)
   console.log(ownID.value)
-  const response = (await get(`room/${code}/${ownID.value}/join`)) as Response | void
+  const response = (await get<Response>(`room/${code}/${ownID.value}/join`))
   console.log(response)
   if (response?.data) {
     role.value = 'player'

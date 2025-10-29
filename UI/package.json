@@ -4,19 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "../node_modules/.bin/vite",
-    "build": "../node_modules/.bin/run-p type-check \"build-only {@}\" --",
-    "preview": "../node_modules/.bin/vite preview",
-    "build-only": "../node_modules/.bin/vite build",
-    "type-check": "../node_modules/.bin/vue-tsc --build",
-    "lint": "../node_modules/.bin/eslint . --fix",
-    "format": "../node_modules/.bin/prettier --write UI/src/"
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "axios": "^1.10.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "express": "^5.1.0",
     "href-content": "^2.0.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -36,7 +37,7 @@
     "prettier": "3.5.3",
     "typescript": "~5.8.0",
     "unplugin-auto-import": "^19.3.0",
-    "vite": "^6.2.4",
+    "vite": "^6.3.6",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vue-tsc": "^2.2.8"
   }

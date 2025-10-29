@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ownID, roomID, role } from 'UI/src/data/DataStore.ts'
-import { router } from 'UI/src/router'
-import Button from 'UI/src/components/Button.vue'
-import type { PlayerID } from 'UI/src/data/types.ts'
-import { post, joinRoom } from 'UI/src/data/fetchFunctions.ts'
+import { ownID, roomID, role } from '../data/DataStore'
+import { router } from '../router'
+import Button from '../components/Button.vue'
+import type { PlayerID } from '../data/types'
+import { post, joinRoom } from '../data/fetchFunctions'
 import type { JsonOptions } from 'vite'
 
 const inputCode = ref<string>('')
@@ -17,7 +17,7 @@ type Response = {
 async function createRoom(hostID: PlayerID): Promise<boolean> {
   console.log(hostID)
   console.log(ownID.value)
-  const response = (await post('room/new', hostID)) as Response | void
+  const response = (await post<Response>('room/new', hostID))
   if (response) {
     console.log('roomID:', response.data)
     roomID.value = response.data.toString()

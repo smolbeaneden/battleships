@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { usePolling, get } from 'UI/src/data/fetchFunctions.ts'
+import { usePolling, get } from '../../data/fetchFunctions'
 import { onMounted } from 'vue'
-import {roomID, state} from 'UI/src/data/DataStore.ts'
+import {roomID, state} from '../../data/DataStore'
 
 type Response = {
   data: string
@@ -12,7 +12,7 @@ const { start, clear } = usePolling(checkGameState, 1000)
 onMounted(start)
 
 async function checkGameState(): Promise<boolean> {
-  const response = await get(`room/${roomID.value}/state`) as Response | void
+  const response = await get<Response>(`room/${roomID.value}/state`)
   console.log(response?.data)
   if (response?.data == "placingShips") {
     state.value = "placingShips"

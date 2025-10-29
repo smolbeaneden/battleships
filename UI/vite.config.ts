@@ -134,11 +134,6 @@ export default defineConfig({
       dumpUnimportItems: './auto-imports.json', // Default `false`
     }),
   ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
   server: {
     proxy: {
       '/api': {

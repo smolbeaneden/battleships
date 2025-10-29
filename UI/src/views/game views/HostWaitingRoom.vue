@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import StartButton from 'UI/src/components/Button.vue'
-import { router } from 'UI/src/router'
-import { roomID, state } from 'UI/src/data/DataStore.ts'
-import { get } from 'UI/src/data/fetchFunctions.ts'
+import StartButton from '../../components/Button.vue'
+import { router } from '../../router'
+import { roomID, state } from '../../data/DataStore'
+import { get } from '../../data/fetchFunctions'
 import { ref, onMounted } from 'vue'
-import { usePolling, changeState} from 'UI/src/data/fetchFunctions.ts'
+import { usePolling, changeState} from '../../data/fetchFunctions'
 
 type Response = {
   data: boolean
@@ -25,7 +25,7 @@ async function copyContent(): Promise<void> {
 const playerConnected = ref<boolean>(false)
 
 async function checkPlayerConnected(): Promise<void> {
-  const response = (await get(`room/${roomID.value}/player`)) as Response | void
+  const response = (await get<Response>(`room/${roomID.value}/player`))
   console.log(response?.data)
   if (response?.data) {
     playerConnected.value = response.data

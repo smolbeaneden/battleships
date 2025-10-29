@@ -1,0 +1,60 @@
+:root {
+  --bg-color: rgba(255, 255, 255, 0);
+  --cursor: 'auto';
+  --hover-background-color: none;
+  --active-color: solid 1px #5c525a;
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+h1{
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+.grid {
+  display: inline-grid;
+  grid-template-columns: repeat(10, 1fr);
+  border: 1px solid lightgray;
+}
+
+.myCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+  width: 0.7em;
+  height: 0.7em;
+  text-align: center;
+  border: solid 1px #5c525a;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.oppCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+  width: 0.7em;
+  height: 0.7em;
+  text-align: center;
+  border: solid 1px #5c525a;
+  transition:
+    border-color 0.25s,
+    background-color 0.15s;
+}
+
+.oppCell:hover {
+  cursor: var(--cursor);
+  background-color: var(--hover-background-color);
+}
+
+.oppCell:active {
+  border: var(--active-color);
+}
