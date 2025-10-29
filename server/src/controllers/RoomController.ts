@@ -43,7 +43,7 @@ export function createNewRoom(hostID: PlayerID): RoomID {
     ...emptyRoom,
     hostID: hostID,
     turn: hostID,
-    state: 'waitingRoom',
+    state: 'waitingRoom'
   }
   return roomID
 }

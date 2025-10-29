@@ -92,4 +92,17 @@ router.get('/:roomID/:role/ready', (req, res) => {
   }
 })
 
+router.get('/:roomID/board/:role', (req, res) => {
+  if(req.params.role === "host") {
+    res.json({data: rooms.value[req.params.roomID].hostBoard})
+  }
+  else if(req.params.role === "player") {
+    res.json({data: rooms.value[req.params.roomID].playerBoard})
+  }
+  else{
+    res.json({ok: false})
+  }
+
+})
+
 export default router
