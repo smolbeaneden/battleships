@@ -2,7 +2,8 @@ import { ownID, role, serverURL, roomID } from './DataStore'
 import type { JsonOptions } from 'vite'
 import router from '../router'
 import type { RoomID, State, Board } from './types'
-const myHeaders = { Authorization: ownID.value.toString() }
+const myHeaders = {
+  Authorization: ownID.value.toString()}
 import { ref, onMounted, onUnmounted } from 'vue'
 
 type Response = {
@@ -14,7 +15,8 @@ export async function get<T>(endpoint: string): Promise<T> {
   let returnValue = undefined
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
-      headers: myHeaders
+      headers: myHeaders,
+      credentials: 'include'
     })
     console.log(response)
     returnValue = await response.json()
@@ -37,6 +39,7 @@ export async function post<T>(endpoint: string, input: string): Promise<T> {
     const response = await fetch(`${serverURL}/${endpoint}`, {
       method: 'POST',
       body: input,
+      credentials: 'include',
       headers: myHeaders,
     })
     console.log(response)
@@ -54,6 +57,7 @@ export async function put<T>(endpoint: string, input: Board | string | Record<st
     const response = await fetch(`${serverURL}/${endpoint}`, {
       method: 'PUT',
       body: JSON.stringify(input),
+      credentials: 'include',
       headers: myHeaders,
     })
     console.log(response)
@@ -69,6 +73,7 @@ export async function deleteRequest<T>(endpoint: string): Promise<T> {
   try {
     const response = await fetch(`${serverURL}/${endpoint}`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: myHeaders,
     })
     console.log(response)

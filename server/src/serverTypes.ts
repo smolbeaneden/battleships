@@ -1,6 +1,6 @@
 export interface cell {
-  ship: boolean
-  clicked: boolean
+  isShip: boolean;
+  clicked: boolean;
 }
 export type Board = cell[][]
 

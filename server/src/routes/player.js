@@ -4,14 +4,15 @@ const router = Router()
 import { generatePlayerID, deletePlayerID } from '../controllers/PlayerController.ts'
 
 router.get('/new', (req, res) => {
+  console.log({"cookie": req.cookies.sessionId})
   if (!req.cookies.sessionId) {
     console.log('New player')
     let ID = generatePlayerID()
     res.cookie('sessionId', ID, {
       httpOnly: false,
-      secure: true,
+      secure: false, // Must be false for localhost HTTP
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: 'None',
+      sameSite: 'lax',
     })
     res.json({ ID })
   }

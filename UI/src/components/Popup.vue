@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { winner } from '../data/DataStore'
 const show = ref<boolean>(true)
 
 function popupText(): string {
-  return 'You Won!'
+  if (winner.value){
+    return 'You Won!'
+  }
+  return 'You Lost...'
+
 }
 </script>
 

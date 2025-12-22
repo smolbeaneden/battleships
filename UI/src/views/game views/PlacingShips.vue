@@ -19,8 +19,8 @@ function shipDisplay(ship: boolean): string {
 }
 
 function placeShip(x: number, y: number): void {
-  if (shipsPlaced.value < SHIPS && !ownBoard.value[x][y].ship) {
-    ownBoard.value[x][y].ship = true
+  if (shipsPlaced.value < SHIPS && !ownBoard.value[x][y].isShip) {
+    ownBoard.value[x][y].isShip = true
     shipsPlaced.value++
     console.log(ownBoard.value)
   }
@@ -56,7 +56,7 @@ async function sendBoard() {
   <div class="grid">
     <div v-for="(row, i) in ownBoard" :key="i">
       <div v-for="(cell, j) in row" :key="j" class="cell" @click="placeShip(i, j)">
-        {{ shipDisplay(cell.ship) }}
+        {{ shipDisplay(cell.isShip) }}
       </div>
     </div>
   </div>

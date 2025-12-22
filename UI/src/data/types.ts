@@ -1,5 +1,5 @@
 export type cell = {
-  ship: boolean
+  isShip: boolean
   clicked: boolean
 }
 

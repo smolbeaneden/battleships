@@ -4,12 +4,12 @@ import { toRaw, ref } from 'vue'
 import random from 'random-string-generator'
 
 const emptyBoard = ref<Board>([])
-const emptyCell: cell = { ship: false, clicked: false }
+const emptyCell: cell = { isShip: false, clicked: false }
 
 for (let i = 0; i < BOARD_SIZE; i++) {
   emptyBoard.value.push([])
   for (let j = 0; j < BOARD_SIZE; j++) {
-    emptyBoard.value[i].push(structuredClone(toRaw(emptyCell)))
+    emptyBoard.value[i]?.push(structuredClone(toRaw(emptyCell)))
   }
 }
 
@@ -32,8 +32,7 @@ function generateRoomID(): RoomID {
   while (rooms.value[roomID.value]) {
     roomID.value = random(12)
   }
-
-  return roomID.value
+  return structuredClone(toRaw(roomID.value))
 }
 
 export function createNewRoom(hostID: PlayerID): RoomID {
@@ -50,22 +49,23 @@ export function createNewRoom(hostID: PlayerID): RoomID {
 
 export function authorizeOrAddPlayer(roomID: RoomID, playerID: PlayerID): boolean {
   console.log('authorizeOrAddPlayer called')
-  console.log(rooms.value[roomID])
-  if (rooms.value[roomID].playerID == playerID) {
-    console.log('already a player')
-    return true
-  } else if (rooms.value[roomID].playerID == '0') {
-    console.log('assigning player')
-    rooms.value[roomID].playerID = playerID
-    return true
+  if(rooms.value[roomID]) {
+    if (rooms.value[roomID].playerID == playerID) {
+      console.log('already a player')
+      return true
+    } else if (rooms.value[roomID].playerID == '0') {
+      console.log('assigning player')
+      rooms.value[roomID].playerID = playerID
+      return true
+    }
   }
   return false
 }
 
 export function authorizeHost(roomID: RoomID, playerID: PlayerID): boolean {
-  return rooms.value[roomID].hostID == playerID
+  return rooms.value[roomID]?.hostID == playerID
 }
 
 export function authorizePlayer(roomID: RoomID, playerID: PlayerID): boolean {
-  return rooms.value[roomID].playerID == playerID
+  return rooms.value[roomID]?.playerID == playerID
 }

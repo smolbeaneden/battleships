@@ -18,44 +18,46 @@ import {
   roomID,
   role,
   turn,
+  END_GAME,
+  winner
 } from '../../data/DataStore'
+import Popup from '../../components/Popup.vue'
 import { usePolling, get, put } from '../../data/fetchFunctions'
 import type { cell, Board } from '../../data/types'
-import { ref, onMounted } from 'vue'
-
+import { ref, onMounted, toRaw } from 'vue'
+console.log(opponentBoard.value)
 interface Response {
   data: string;
   ok: boolean;
 }
+
+const { start, clear } = usePolling(checkTurn, 1000)
+onMounted(start)
 
 type CellProperties = Record<string, string>
 
 const inactiveCellProperties = ref<CellProperties>({"cursor": 'auto', "hoverBackground": "none", "activeColor": "solid 1px #5c525a"})
 const activeCellProperties =ref<CellProperties>({"cursor": "pointer", "hoverBackground": "#5c525a", "activeColor": "solid 2px #afa4a4"})
 
-const cellProperties = ref<CellProperties>(inactiveCellProperties.value)
+const cellProperties = ref<CellProperties>(structuredClone(toRaw(inactiveCellProperties.value)))
 
 function changeCellProperties(cellsType: "active" | "inactive") {
-  if(cellsType === "active") {
-    cellProperties.value = activeCellProperties.value
+  if(cellsType == "active") {
+    cellProperties.value = structuredClone(toRaw(activeCellProperties.value))
   } else {
-    cellProperties.value = inactiveCellProperties.value
+    cellProperties.value = structuredClone(toRaw(inactiveCellProperties.value))
   }
   return;
 }
 
 if (role.value == 'host') {
   turn.value = true;
+  console.log("user is host")
   changeCellProperties("active")
 }
 
-const { start, clear } = usePolling(checkTurn, 1000)
-onMounted(start)
-
-
-
 function shipDisplay(cell: cell): string {
-  if (cell.ship && cell.clicked) {
+  if (cell.isShip && cell.clicked) {
     return cellDisplay.clickedShip
   }
   if (cell.clicked) {
@@ -73,52 +75,95 @@ interface BoardResponse {
   ok: boolean;
 }
 async function fetchBoard(board: "mine" | "opponent") {
+  console.log(board);
   if (board === "mine") {
-    const response = await get<BoardResponse>(`/room/${roomID.value}/board/${role.value}`)
-    ownBoard.value = response.data
-  } else {
-    const response = await get<BoardResponse>(`room/${roomID.value}/board/${role.value == 'host' ? 'player' : 'host'}`)
-    opponentBoard.value = response.data
-  }
-}
-async function checkTurn() {
-  const response = await get<Response>(`game/${roomID.value}/turn`);
-  console.log(response.data);
-  if (response.data !== turn.value.toString()) {
-    console.log('turn is changing')
-    turn.value = response.data == 'true'
+    const response = await get<BoardResponse>(`room/${roomID.value}/${role.value}/board`)
+    console.log("Full response:", response) // Check the entire response
+    console.log("Response data:", response.data) // Check if data exists
 
-    if (turn.value) {
-      await fetchBoard("mine")
-      changeCellProperties("active")
-      clear()
+    if (response && response.data) {
+      ownBoard.value = response.data
     } else {
-      await fetchBoard("opponent")
-      changeCellProperties("inactive")
+      console.error("No data in response:", response)
+    }
+  } else if (board === "opponent") {
+    const response = await get<BoardResponse>(`room/${roomID.value}/${role.value === 'host' ? 'player' : 'host'}/board`)
+    console.log("Full response:", response)
+    console.log("Response data:", response.data)
+
+    if (response && response.data) {
+      opponentBoard.value = response.data
+    } else {
+      console.error("No data in response:", response)
     }
   }
 }
 
-async function updateTurn(): Promise<void> {
-  await put<Response>(`game/${roomID.value}/turn`, turn.value)
+  async function checkTurn() {
+    const response = await get<Response>(`game/${roomID.value}/turn`); //comes out false....
+    console.log(response.data);
+    console.log(turn.value)
+    if (response.data !== turn.value.toString()) {
+      console.log({ 'turn is changing': response.data == 'true' })
+      turn.value = response.data == 'true'
+
+      if (turn.value) {
+        await fetchBoard("mine")
+        changeCellProperties("active")
+        clear()
+        await checkEndGame()
+      }
+    }
+  }
+
+  async function updateTurn(): Promise<void> {
+    await put<Response>(`game/${roomID.value}/turn`, turn.value)
+  }
+
+  async function attack(y: number, x: number): Promise<boolean> {
+    if (turn.value && opponentBoard.value[y][x].clicked != true) {
+      turn.value = false
+      changeCellProperties("inactive")
+      const response = (await put<Response>(`game/${roomID.value}/attack`, { x, y }))
+      if (response.data === 'true') {
+        opponentBoard.value[y][x].isShip = true
+      }
+      opponentBoard.value[y][x].clicked = true
+      await fetchBoard("opponent")
+      await updateTurn()
+      await checkEndGame()
+      if (!END_GAME.value){
+        start()
+      }
+
+      return true;
+    }
+  }
+
+interface endGameResponse {
+  data: {
+    end: boolean
+    winner: boolean
+  }
+  ok: boolean
 }
 
-async function attack(y: number, x: number): Promise<boolean> {
-  turn.value = false
-  changeCellProperties("inactive")
-  const response = (await put<Response>(`game/${roomID.value}/attack`, {x, y}))
-  if (response.data === 'true') {
-    opponentBoard.value[y][x].ship = true
+  async function checkEndGame(): Promise<boolean>{
+    const response = await get<endGameResponse>(`game/${roomID.value}/end`);
+    console.log(response.data);
+    if (response.data.end) {
+      response.data.winner ? winner.value = true: winner.value = false;
+      END_GAME.value = true;
+      changeCellProperties("inactive")
+      clear()
+    }
+    return true;
   }
-  opponentBoard.value[y][x].clicked = true
-  await updateTurn()
-  start()
-  return true;
-}
+
 </script>
 
 <template>
-  <h1 v-if="turn == true">Your Turn!</h1>
+  <h1 v-if="turn">Your Turn!</h1>
   <h1 v-else>Wait for your turn...</h1>
   <div class="boards">
     <div>
@@ -129,7 +174,7 @@ async function attack(y: number, x: number): Promise<boolean> {
             v-for="(cell, j) in row"
             :key="j"
             class="myCell"
-            :style="{ 'background-color': getOwnCellBackground(cell.ship) }"
+            :style="{ 'background-color': getOwnCellBackground(cell.isShip) }"
           >
             {{ shipDisplay(cell) }}
           </div>
@@ -158,7 +203,7 @@ async function attack(y: number, x: number): Promise<boolean> {
       </div>
     </div>
   </div>
-  <!--  <Popup />-->
+  <Popup v-if="END_GAME" />
 </template>
 
 <style scoped src="./GameCourse.css"/>

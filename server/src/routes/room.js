@@ -46,44 +46,49 @@ router.get('/:roomID/:playerID/join', (req, res) => {
 })
 
 router.get('/:roomID/:playerID/host', (req, res) => {
+  console.log('respond num 1')
   res.send(authorizeHost(req.params.roomID, req.params.playerID))
 })
 
 router.get('/:roomID/:playerID/player', (req, res) => {
+  console.log('respond num 2')
   res.send(authorizePlayer(req.params.roomID, req.params.playerID))
 })
 
 router.get('/:roomID/player', (req, res) => {
+  console.log('respond num 3')
   let connected
   connected = rooms.value[req.params.roomID].playerID.length === 12
   res.json({ data: connected })
 })
 
 router.get('/:roomID/state', (req, res) => {
+  console.log('respond num 4')
   res.json({data: rooms.value[req.params.roomID].state})
 })
 
 router.put('/:roomID/state', (req, res) => {
+
   rooms.value[req.params.roomID].state = JSON.parse(req.body)
   res.json({data: rooms.value[req.params.roomID].state})
 })
 
 router.put('/:roomID/:playerID/board', (req, res) => {
+
   if(rooms.value[req.params.roomID].playerID === req.params.playerID) {
     rooms.value[req.params.roomID].playerBoard = JSON.parse(req.body)
     rooms.value[req.params.roomID].playerReady = true;
-    console.log(JSON.parse(req.body))
     res.json({data: rooms.value[req.params.roomID].playerBoard})
   }
   else{
     rooms.value[req.params.roomID].hostBoard = JSON.parse(req.body)
     rooms.value[req.params.roomID].hostReady = true;
-    console.log(JSON.parse(req.body))
     res.json({data: rooms.value[req.params.roomID].hostBoard})
   }
 })
 
 router.get('/:roomID/:role/ready', (req, res) => {
+  console.log('respond num 5')
   if(req.params.role === "host") {
     res.json({data: rooms.value[req.params.roomID].playerReady})
   }
@@ -92,17 +97,21 @@ router.get('/:roomID/:role/ready', (req, res) => {
   }
 })
 
-router.get('/:roomID/board/:role', (req, res) => {
+router.get('/:roomID/:role/board', (req, res) => {
+  console.log("board fetching by role")
+  console.log({"role": req.params.role})
+
   if(req.params.role === "host") {
-    res.json({data: rooms.value[req.params.roomID].hostBoard})
+    console.log("host role")
+    res.json({data: rooms.value[req.params.roomID].hostBoard, ok: true})
   }
   else if(req.params.role === "player") {
-    res.json({data: rooms.value[req.params.roomID].playerBoard})
+    console.log("player role")
+    res.json({data: rooms.value[req.params.roomID].playerBoard, ok: true})
   }
   else{
-    res.json({ok: false})
+    res.json({data: undefined, ok: false})
   }
-
 })
 
 export default router
